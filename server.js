@@ -23,7 +23,7 @@ const sendSMS = async (body) => {
   // Define the message options
   let msgOptions = {
     body,
-    to: '+918146558127',          // Set the destination phone number
+    to: '+918146558127', // Set the destination phone number
     from: '+18283830901' // Set your Twilio phone number
   };
 
@@ -36,7 +36,7 @@ const sendSMS = async (body) => {
   }
 };
 
-sendSMS("sms send to number")
+sendSMS(`sms send to number ${2342}`)
 // client.calls
 //   .create({
 //     url: 'https://voice-wings.onrender.com/',
