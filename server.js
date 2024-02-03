@@ -15,8 +15,8 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSid = "ACa7b4fb8437a7b09b912d49e7d409aea5";
+const authToken = "195e8aaaa4fa043bf2218da0f4873bb9";
 const client = require('twilio')(accountSid, authToken);
 
 client.calls
