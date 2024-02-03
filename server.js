@@ -15,18 +15,37 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
-const accountSid = "ACa7b4fb8437a7b09b912d49e7d409aea5";
-const authToken = "195e8aaaa4fa043bf2218da0f4873bb9";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
-client.calls
-  .create({
-    url: 'http://demo.twilio.com/docs/voice.xml',
-    to: process.env.SMS_FROM_NUMBER,
-    from: process.env.SMS_FROM_NUMBER,
-  })
-  .then(call => console.log(call.sid))
-  .catch(err => console.log(err));
+const sendSMS = async (body) => {
+  // Define the message options
+  let msgOptions = {
+    body,
+    to: '+918146558127',          // Set the destination phone number
+    from: '+18283830901' // Set your Twilio phone number
+  };
+
+  try {
+    // Use the Twilio client to send the SMS
+    const message = await client.messages.create(msgOptions);
+    console.log(message);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+sendSMS("sms send to number")
+// client.calls
+//   .create({
+//     url: 'https://voice-wings.onrender.com/',
+//     body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+//     to: '918146558127',
+//     from: '+918146558127',
+//   })
+//   .then(call => console.log(call.sid))
+//   .catch(err => console.log(err));
 
 app.use(cookieParser());
 const corsOption = {
