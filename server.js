@@ -15,11 +15,23 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
+client.calls
+  .create({
+    url: 'http://demo.twilio.com/docs/voice.xml',
+    to: process.env.SMS_FROM_NUMBER,
+    from: process.env.SMS_FROM_NUMBER,
+  })
+  .then(call => console.log(call.sid))
+  .catch(err => console.log(err));
 
 app.use(cookieParser());
 const corsOption = {
   credentials: true,
-  origin: [process.env.FRONT_URL],
+  origin: [process.env.FRONT_URL, "http://localhost:3000"],
 };
 app.use(cors(corsOption));
 app.use("/storage", express.static("storage"));
