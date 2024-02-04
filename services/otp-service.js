@@ -13,11 +13,11 @@ class OtpService {
     return otp;
   }
 
-  async sendBySms(phone, otp) {
+  async sendBySms(phone) {
     return await twilio.messages.create({
       to: phone,
       from: process.env.SMS_FROM_NUMBER,
-      body: `Your voicewings OTP is ${otp}`,
+      body: `Your voicewings OTP is ${1234}`,
     });
   }
 

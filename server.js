@@ -15,32 +15,32 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
-function generateOTP() {
-  // Generate a random 6-digit number
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+// function generateOTP() {
+//   // Generate a random 6-digit number
+//   return Math.floor(100000 + Math.random() * 900000).toString();
+// }
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const client = require('twilio')(accountSid, authToken);
 
-const sendSMS = async (body) => {
-  // Define the message options
-  let msgOptions = {
-    body,
-    to: '+918146558127', // Set the destination phone number
-    from: '+18283830901' // Set your Twilio phone number
-  };
+// const sendSMS = async (body) => {
+//   // Define the message options
+//   let msgOptions = {
+//     body,
+//     to: '+918146558127', // Set the destination phone number
+//     from: '+18283830901' // Set your Twilio phone number
+//   };
 
-  try {
-    // Use the Twilio client to send the SMS
-    const message = await client.messages.create(msgOptions);
-    console.log(message);
-  } catch (error) {
-    console.error(error);
-  }
-};
+//   try {
+//     // Use the Twilio client to send the SMS
+//     const message = await client.messages.create(msgOptions);
+//     console.log(message);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-sendSMS(`sms send to number ${generateOTP()}`)
+// sendSMS(`sms send to number ${generateOTP()}`)
 // client.calls
 //   .create({
 //     url: 'https://voice-wings.onrender.com/',
