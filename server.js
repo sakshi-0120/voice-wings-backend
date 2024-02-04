@@ -15,6 +15,10 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
+function generateOTP() {
+  // Generate a random 6-digit number
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -36,7 +40,7 @@ const sendSMS = async (body) => {
   }
 };
 
-sendSMS(`sms send to number ${2342}`)
+sendSMS(`sms send to number ${generateOTP()}`)
 // client.calls
 //   .create({
 //     url: 'https://voice-wings.onrender.com/',
