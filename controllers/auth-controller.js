@@ -34,36 +34,43 @@ class AuthController {
 
   async verifyOtp(req, res) {
     const { otp, hash, phone } = req.body;
-    if (!otp || !hash || !phone) {
-      res.status(400).json({ message: "All fields are required!" });
-    }
+  console.log(res.body, "assasas----");
 
-    const [hashedOtp, expires] = hash.split(".");
-    if (Date.now() > +expires) {
-      res.status(400).json({ message: "OTP expired!" });
-    }
+  if (!otp || !hash || !phone) {
+    res.status(400).json({ message: "All fields are required!" });
+  }
 
-    const data = `${phone}.${otp}.${expires}`;
-    const isValid = otpService.verifyOtp(hashedOtp, data);
-    if (!isValid) {
-      res.status(400).json({ message: "Invalid OTP" });
-    }
+  const [hashedOtp, expires] = hash.split(".");
+  if (Date.now() > +expires) {
+    res.status(400).json({ message: "OTP expired!" });
+  }
 
-    let user;
-    try {
-      user = await userService.findUser({ phone });
-      if (!user) {
-        user = await userService.createUser({ phone });
-      }
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: "Db error" });
-    }
+  // Use the static OTP for testing
+  const staticOtp = '1234';
 
-    const { accessToken, refreshToken } = tokenService.generateTokens({
-      _id: user._id,
-      activated: false,
-    });
+  const data = `${phone}.${staticOtp}.${expires}`; // Use staticOtp instead of otp
+  const isValid = otpService.verifyOtp(hashedOtp, data);
+
+  if (isValid) {
+    res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  let user;
+  try {
+    user = await userService.findUser({ phone });
+    if (!user) {
+      user = await userService.createUser({ phone });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Db error" });
+  }
+
+  const { accessToken, refreshToken } = tokenService.generateTokens({
+    _id: user._id,
+    activated: false,
+  });
+
 
     await tokenService.storeRefreshToken(refreshToken, user._id);
 

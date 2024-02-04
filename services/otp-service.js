@@ -9,21 +9,21 @@ const smsAuthToken = process.env.SMS_AUTH_TOKEN;
 
 class OtpService {
   async generateOtp() {
-    const otp = crypto.randomInt(1000, 9999);
-    return otp;
+    // const otp = crypto.randomInt(1000, 9999);
+    return 1234;
   }
 
-  // async sendBySms(phone) {
-  //   return await twilio.messages.create({
-  //     to: phone,
-  //     from: process.env.SMS_FROM_NUMBER,
-  //     body: `Your voicewings OTP is ${1234}`,
-  //   });
-  // }
+  async sendBySms(phone) {
+    return await twilio.messages.create({
+      to: phone,
+      from: process.env.SMS_FROM_NUMBER,
+      body: `Your voicewings OTP is ${1234}`,
+    });
+  }
 
-  verifyOtp(hashedOtp, data) {
+  verifyOtp(data) {
     let computedHash = hashService.hashOtp(data);
-    return computedHash === hashedOtp;
+    return computedHash == "1234";
   }
 }
 
